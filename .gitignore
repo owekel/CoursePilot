@@ -1,0 +1,18 @@
+# Python virtual environment
+.venv/
+
+# Python-generated files
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Environment variables and API keys
+.env
+.env.*
+*api_key*
+
+# Course PDFs and generated data
+data/
+
+# macOS files
+.DS_Store
