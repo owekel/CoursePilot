@@ -4,8 +4,6 @@ from google.genai import types
 from google.genai.errors import ServerError
 
 
-client = genai.Client()
-
 schema = {
     "type": "OBJECT",
     "properties": {
@@ -34,7 +32,7 @@ schema = {
 }
 
 def generate_practice_questions(image_paths, num_questions, difficulty):
-    # 1. Open the image file
+    client = genai.Client()
     
     images = []
 
@@ -65,9 +63,9 @@ def generate_practice_questions(image_paths, num_questions, difficulty):
     The requested difficulty is {difficulty}
 
     Requirements:
-    1. Test the same concepts as the textbook.
+    1. Test the same concepts as the provided course material.
     2. Do not copy the textbook's example.
-    3. Match the requested difficulty level. If the difficulty is mixed, include a range of easy, medium, and hard questions.
+    3. Match the requested difficulty level. If the difficulty is mixed, vary the difficulty across questions when the question count allows it.
     4. Provide a detailed step-by-step solution.
     5. Check that your solution satisfies the problem.
 
