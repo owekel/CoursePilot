@@ -18,3 +18,4 @@ Gemini API.
 - Google Gemini API
 - PyMuPDF
 - JSON
+- SQLite
