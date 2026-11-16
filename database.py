@@ -77,8 +77,6 @@ def save_full_practice_set(practice_set, db_path = "data/coursepilot.db"):
         connection.close()
 
 
-    
-
 
 def get_practice_sets():
     connection = sqlite3.connect("data/coursepilot.db")
@@ -92,6 +90,73 @@ def get_practice_sets():
     connection.close()
 
     return rows
+
+
+def get_questions_for_set(practice_set_id, db_path = "data/coursepilot.db"):
+    connection = sqlite3.connect(db_path)
+    cursor = connection.cursor()
+
+    cursor.execute(
+        "SELECT * FROM questions WHERE practice_set_id = ?",
+        (practice_set_id,)
+    )
+
+    rows = cursor.fetchall()
+
+    connection.close()
+
+    return rows
+
+
+
+def load_full_practice_set(practice_set_id, db_path="data/coursepilot.db"):
+    connection = sqlite3.connect(db_path)
+    cursor = connection.cursor()
+
+    cursor.execute(
+            "SELECT * FROM practice_sets WHERE id = ?",
+            (practice_set_id,)
+        )
+
+    row = cursor.fetchone()
+
+    if row is None:
+        connection.close()
+        return None
+
+    course = row[1]
+    created_at = row[2]
+
+    cursor.execute(
+        "SELECT * FROM questions WHERE practice_set_id = ?",
+        (practice_set_id,)
+    )
+
+    question_rows = cursor.fetchall()
+
+    questions = []
+
+    for row in question_rows:
+        question = {
+            "question": row[2],
+            "solution": row[3],
+            "difficulty": row[4],
+            "type": row[5],
+            "topic": row[6]
+        }
+
+        questions.append(question)
+
+    practice_set = {
+    "course": course,
+    "created_at": created_at,
+    "questions": questions
+    }
+
+    connection.close()
+
+    return practice_set
+
 
 
 
